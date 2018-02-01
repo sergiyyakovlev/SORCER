@@ -1,0 +1,19 @@
+1. CoffeeMaker.java, line 148 -> addInventory(int amtCoffee, int amtMilk, int amtSugar, int amtChocolate)
+	Impossible to add positive amount of sugar
+	Test: CoffeMakerTest.java -> testAddInventoryWithPositiveSugar()
+
+2. CoffeeMaker.java, line 25 -> private final int NUM_RECIPES
+	According to usecase requirements the max number of recepies to add - 3, but it's 4 in this constant
+	Test: CoffeMakerTest.java -> testAddMoreThan3Recipies()
+
+3. CoffeeMaker.java, line 177 -> makeCoffee(Recipe r, int amtPaid)
+	Coffee amount increases instead of decreasing
+	Test: CoffeMakerTest.java -> testBevPurchase()
+
+4. CoffeeMaker.java, line 87 -> deleteRecipe(Recipe r)
+	The recipe is not deleted properly
+	Test: CoffeMakerTest.java -> testRecipeDelete()
+
+5. CoffeeMaker.java, line 210 -> getRecipeForName(String name)
+	Coffeemaker doesn't handle with name properly, if it's null value
+	Test: CoffeMakerTest.java -> testHandleNullRecipeName()
