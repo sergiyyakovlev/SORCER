@@ -120,6 +120,54 @@ public class CoffeeMakerTest {
 		coffeeMaker.addRecipe(espresso);
 		assertEquals(coffeeMaker.makeCoffee(espresso, 200), 150);
 	}
+	
+	//------------------------------------------------------------------------------------------------------------------
+	// new tests!
+
+	@Test
+    	public void testAddInventoryWithPositiveSugar() {
+        	assertTrue(coffeeMaker.addInventory(0, 0, 5, 0));
+    	}
+	
+	@Test
+	public void testAddMoreThan3Recipies() {
+
+		coffeeMaker.addRecipe(americano);
+		coffeeMaker.addRecipe(mocha);
+		coffeeMaker.addRecipe(espresso);
+		assertFalse(coffeeMaker.addRecipe(macchiato));
+	}
+	
+	@Test
+	public void testBevPurchase() {
+
+		coffeeMaker.addRecipe(espresso);
+
+		coffeeMaker.makeCoffee(espresso,50);
+
+		Inventory inventory = coffeeMaker.checkInventory();
+
+		assertEquals(9,inventory.getCoffee());
+		assertEquals(14,inventory.getMilk());
+		assertEquals(14,inventory.getSugar());
+		assertEquals(15,inventory.getChocolate());
+
+	}
+	
+	@Test
+	public void testRecipeDelete() {
+
+		coffeeMaker.addRecipe(macchiato);
+		coffeeMaker.deleteRecipe(macchiato);
+		assertTrue(coffeeMaker.addRecipe(macchiato));
+
+	}
+	
+	@Test
+    	public void testHandleNullRecipeName() {
+		Recipe r = coffeeMaker.getRecipeForName(null);
+		assertTrue(r == null);
+    	}	
 
 }
 
