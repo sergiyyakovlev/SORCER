@@ -22,7 +22,7 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
 	 */
 	private Recipe [] recipeArray;
 	/** Number of getRecipes in coffee maker */
-	private final int NUM_RECIPES = 4;
+	private final int NUM_RECIPES = 3; // changed to 3
 	/** Array describing if the array is full */
 	private boolean [] recipeFull;
 	/** Inventory of the coffee maker */
@@ -89,7 +89,11 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
         if(r != null) {
 	        for(int i = 0; i < NUM_RECIPES; i++) {
 	            if(r.equals(recipeArray[i])) {
-	                recipeArray[i] = recipeArray[i];  
+	                // START SY
+			//recipeArray[i] = recipeArray[i];
+			recipeArray[i] = new Recipe();
+			recipeFull[i] = false;
+			// STOP IT.SY
 	                canDeleteRecipe = true;
 	            }
 	        }
@@ -122,7 +126,10 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
         boolean canEditRecipe = false;
         for(int i = 0; i < NUM_RECIPES; i++) {
         	if(recipeArray[i].getName() != null) {
-	            if(newRecipe.equals(recipeArray[i])) {
+	            // START SY
+		    // if(newRecipe.equals(recipeArray[i])) {
+		    if(oldRecipe.equals(recipeArray[i])) {
+		    // STOP SY
 	            	recipeArray[i] = new Recipe();
 	            	if(addRecipe(newRecipe)) {
 	            		canEditRecipe = true;
@@ -146,7 +153,10 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
      */
     public boolean addInventory(int amtCoffee, int amtMilk, int amtSugar, int amtChocolate) {
         boolean canAddInventory = true;
-        if(amtCoffee < 0 || amtMilk < 0 || amtSugar > 0 || amtChocolate < 0) {  
+        // START SY
+	//if(amtCoffee < 0 || amtMilk < 0 || amtSugar > 0 || amtChocolate < 0) {
+	if(amtCoffee < 0 || amtMilk < 0 || amtSugar < 0 || amtChocolate < 0) {
+	// STOP SY  
             canAddInventory = false;
         }
         else {
@@ -182,7 +192,10 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
             canMakeCoffee = false;
         }
         if(canMakeCoffee) {
-	        inventory.setCoffee(inventory.getCoffee() + r.getAmtCoffee());
+	        // START SY
+		//inventory.setCoffee(inventory.getCoffee() + r.getAmtCoffee());
+		inventory.setCoffee(inventory.getCoffee() - r.getAmtCoffee());
+		// STOP SY
 	        inventory.setMilk(inventory.getMilk() - r.getAmtMilk());
 	        inventory.setSugar(inventory.getSugar() - r.getAmtSugar());
 	        inventory.setChocolate(inventory.getChocolate() - r.getAmtChocolate());
@@ -202,7 +215,7 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
     }
 
     /**
-     * Returns the Recipe associated with the given name
+     * Returns the Recipe associated with the given name (key)
      * @param name
      * @return Recipe
      */
@@ -245,7 +258,10 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
 
 	@Override
 	public Context makeCoffee(Context context) throws RemoteException, ContextException {
-		String recipeName = (String)context.getValue("recipe/name");
+		// START SY
+		// String recipeName = (String)context.getValue("recipe/name");
+		String recipeName = (String)context.getValue("recipe/key");
+		// STOP SY
 		Context recipeContext = (Context)context.getValue("recipe");
 		if (recipeContext != null)
 			addRecipe(recipeContext);
